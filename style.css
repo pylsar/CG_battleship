@@ -27,3 +27,7 @@ body{
     display: inline-block;
     outline: 1px solid #eee;
 }
+
+img {
+    width: 100%;
+}
