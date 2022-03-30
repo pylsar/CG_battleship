@@ -13,34 +13,58 @@ for( let row = 0; row < 10; row++){
 }
 
 const elephants = [
+    // {
+    //     size: 1,
+    //     url: 'https://lh3.googleusercontent.com/kulUKjt-Y12Ld3UeFCwLEGx2GCtdcEEn4GqrikLGyDYXP_x0ERL5UDlAj1paTkiegsd2p1sUPAqANPyRDftT4pEyOF04MF_QNEBZ=w349'
+    // },
+    // {
+    //     size: 2,
+    //     url: 'https://lh3.googleusercontent.com/wnKMJ_dTIwslgsgTPAdO0fv3jzr6yf3cbpqhcDRf5phQpWrEVbMoopaDg4zvhCeLqcp-yxnKVTUOGpuP5zaCysZ67UjihpKd3_Ohrg=w349'
+    // },
     {
-        x: 1,
-        y: 1,
-        size: 1,
-        url: 'https://lh3.googleusercontent.com/kulUKjt-Y12Ld3UeFCwLEGx2GCtdcEEn4GqrikLGyDYXP_x0ERL5UDlAj1paTkiegsd2p1sUPAqANPyRDftT4pEyOF04MF_QNEBZ=w349'
-    },
-    {
-        x: 3,
-        y: 3,
-        size: 2,
-        url: 'https://lh3.googleusercontent.com/wnKMJ_dTIwslgsgTPAdO0fv3jzr6yf3cbpqhcDRf5phQpWrEVbMoopaDg4zvhCeLqcp-yxnKVTUOGpuP5zaCysZ67UjihpKd3_Ohrg=w349'
-    },
-    {
-        x: 6,
-        y: 6,
         size: 3,
         url: 'https://lh3.googleusercontent.com/0U_nKylT2wjfyRRxq0NRJ7YaU-4tkHskFXwztKL2RzfaHnc2x1-wf3y5vSxph7hwKCmBhc2VOthwKbZX22jorg9xBD6T4bfxwE1w2g=w349'
     },
     {
-        x: 2,
-        y: 4,
-        size: 4,
+        size: 3,
         url: 'https://lh3.googleusercontent.com/1Zc9Cv6vu_6nXUk5lVT6jItvVH_wyMAvtUchd9aSJ4FPiQwAnLEIV2oZe3xss8wGNK5GuWgkeyVrOHBXjUvxEljCVGPhOdaHjFT2TPk=w349'
     }
-]
+].reverse();
 
+function getRandomeCoordinates(size, others){
+    const x = 1 + Math.floor(Math.random() * (10 - size)); 
+    const y = 1 + Math.floor(Math.random() * (10 - size));
+
+    if(others.every((otherElephant) => {
+        const [left1, top1, right1, bottom1] = [x, y, x + size, y + size];
+        const [left2, top2, right2, bottom2] = [otherElephant.x, otherElephant.y, otherElephant.x + otherElephant.size, otherElephant.y + otherElephant.size];
+
+        if( top1 < bottom2 || top2 < bottom1){
+            return true;
+        }
+        if(right1 < left2 || right2 < left1){
+            return true;
+        }
+        return false;
+
+    })){
+        return{
+            x,
+            y
+        }
+    }
+    return getRandomeCoordinates(size, others);
+}
 
 elephants.forEach((elephant) => {
+    // elephant.x = 1 + Math.floor(Math.random() * 7); // 7 так как size равен 3 а клеток всего 10
+    // elephant.y = 1 + Math.floor(Math.random() * 7);
+
+    const others = elephants.filter((other) => other !== elephant);
+    const { x, y } = getRandomeCoordinates(elephant.size, others);
+    elephant.x = x;
+    elephant.y = y;
+
     const imgWrapper = document.createElement('div')
     const img = document.createElement('img');
     img.src = elephant.url;
