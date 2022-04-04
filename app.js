@@ -35,19 +35,16 @@ function getRandomeCoordinates(size, others){
     const x = 1 + Math.floor(Math.random() * (10 - size)); 
     const y = 1 + Math.floor(Math.random() * (10 - size));
 
-    if(others.every((otherElephant) => {
-        const [left1, top1, right1, bottom1] = [x, y, x + size, y + size];
-        const [left2, top2, right2, bottom2] = [otherElephant.x, otherElephant.y, otherElephant.x + otherElephant.size, otherElephant.y + otherElephant.size];
-
-        if( top1 < bottom2 || top2 < bottom1){
-            return true;
-        }
-        if(right1 < left2 || right2 < left1){
-            return true;
-        }
-        return false;
-
-    })){
+    if(
+        others.every(
+        (otherElephant) => !(
+            x < otherElephant.x + otherElephant.size  
+            && x + size > otherElephant.x
+            && otherElephant.y + otherElephant.size 
+            && size + y > otherElephant.y
+        )
+    )
+    ){
         return{
             x,
             y
