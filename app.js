@@ -32,9 +32,10 @@ const elephants = [
 ].reverse();
 
 function getRandomeCoordinates(size, others){
-    const x = 1 + Math.floor(Math.random() * (10 - size)); 
-    const y = 1 + Math.floor(Math.random() * (10 - size));
+    const x = 1 + Math.floor(Math.random() * (11 - size)); 
+    const y = 1 + Math.floor(Math.random() * (11 - size));
 
+    // исключаем наложение картинок друг на друга
     if(
         others.every(
         (otherElephant) => !(
@@ -54,9 +55,6 @@ function getRandomeCoordinates(size, others){
 }
 
 elephants.forEach((elephant) => {
-    // elephant.x = 1 + Math.floor(Math.random() * 7); // 7 так как size равен 3 а клеток всего 10
-    // elephant.y = 1 + Math.floor(Math.random() * 7);
-
     const others = elephants.filter((other) => other !== elephant && other.x && other.y);
     const { x, y } = getRandomeCoordinates(elephant.size, others);
     elephant.x = x;
